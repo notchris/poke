@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+ <html lang="en">
+ <head>
+     <meta charset="utf-8">
+     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+     <meta name="viewport" content="width=device-width,initial-scale=1.0">
+     <title>Pokemon</title>
+ </head>
+ <body>
+    <div id="app">
+        <button type="button" id="battle">Start Battle</button>
+
+    <div v-if="player && opponent">
+        <div class="container">
+            <div>
+                <!-- Player -->
+                <fieldset>
+                    <legend>
+                        Player
+                    </legend>
+                    <div>
+                        <ul v-if="player">
+                            <li
+                                v-for="(p, i) in player.pokemon"
+                                :key="p.id"
+                            >{{p.name}}</li>
+                        </ul>
+                    </div>
+                </fieldset>
+            </div>
+            <div>
+                <!-- Opponent -->
+                <fieldset>
+                    <legend>
+                        Opponent
+                    </legend>
+                    <div>
+                        <ul v-if="opponent">
+                            <li
+                                v-for="(p, i) in opponent.pokemon"
+                                :key="p.id"
+                            >{{p.name}}</li>
+                        </ul>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+
+        <div class="container">
+            <div>
+                <fieldset>
+                    <div>
+                        <ul v-show="!activeAction" class="messages">
+                            <li
+                                v-for="(message, i) in messages"
+                                :key="'message_'+i"
+                            >
+                            {{message}}
+                            </li>
+                        </ul>
+                        <div v-show="activeAction === 'fight'" class="actionFight">
+                            <div class="moves">
+                                <button
+                                    type="button"
+                                    v-for="move in moves"
+                                    :key="move.id"
+                                    :disabled="activeMove === move"
+                                    @click="activeMove = move"
+                                >
+                                    {{move.name}}
+                                </button>
+                                <button
+                                    type="button"
+                                    @click="activeAction = null; activeMove = null"
+                                >BACK</button>
+                            </div>
+                            <div class="description">
+                                <div v-if="activeMove">
+                                    <div class="title">{{activeMove.name}}</div>
+                                    <div class="summary">
+                                        <small>A description about the move!</small>
+                                    </div>
+                                    <div>
+                                        <button>Attack!</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+            <div>
+                <fieldset>
+                    <legend>
+                        Actions
+                    </legend>
+                    <div v-if="turn === 1" class="actions">
+                        <button :disabled="activeAction" @click="activeAction = 'fight'">FIGHT</button>
+                        <button :disabled="activeAction" @click="activeAction = 'bag'">BAG</button>
+                        <button :disabled="activeAction" @click="activeAction = 'pkmn'">PKMN</button>
+                        <button :disabled="activeAction" @click="activeAction = 'run'">RUN</button>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+ </body>
+ </html>
